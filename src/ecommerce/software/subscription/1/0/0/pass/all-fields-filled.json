@@ -1,0 +1,9 @@
+{
+    "subscriptionId": "1234-1234-1234",
+    "productIds": [
+        "drawer-pro-1"
+    ],
+    "customerId": "1234-1234-1234",
+    "startDate": "2026-02-03",
+    "endDate": "2027-02-03"
+}
