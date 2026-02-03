@@ -1,25 +1,25 @@
 {
-    "customerId": "1234-1234-1234",
-    "firstName": "Alice",
-    "lastName": "Smith",
-    "email": "alice.smith@example.com",
-    "createdAt": "2026-02-03T23:00:59Z",
-    "gdprErasedAt": null,
-    "status": "active",
-    "membershipTier": "gold",
-    "billingAddress": {
-        "addressLine1": "123 Main St",
-        "locality": "Auckland",
+  "customerId": "1234-1234-1234",
+  "firstName": "Alice",
+  "lastName": "Smith",
+  "email": "alice.smith@example.com",
+  "createdAt": "2026-02-03T23:00:59Z",
+  "gdprErasedAt": null,
+  "status": "active",
+  "membershipTier": "gold",
+  "billingAddress": {
+    "addressLine1": "123 Main St",
+    "locality": "Auckland",
+    "countryCode": "NZ"
+  },
+  "shippingAddresses": [
+    {
+      "title": "Work",
+      "address": {
+        "addressLine1": "1 Big Road",
+        "locality": "Wellington",
         "countryCode": "NZ"
-    },
-    "shippingAddresses": [
-        {
-            "title": "Work",
-            "address": {
-                "addressLine1": "1 Big Road",
-                "locality": "Wellington",
-                "countryCode": "NZ"
-            }
-        }
-    ]
+      }
+    }
+  ]
 }
