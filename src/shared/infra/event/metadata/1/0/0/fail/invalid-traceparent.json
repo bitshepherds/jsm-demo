@@ -1,0 +1,9 @@
+{
+  "schemaId": "https://example.com/my.schema.json",
+  "traceParent": {
+    "version": "00",
+    "traceId": "too-short",
+    "spanId": "0af7651916cd43dd",
+    "traceFlags": "01"
+  }
+}

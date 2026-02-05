@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "The traceparent version (e.g., '00'). 'ff' is forbidden.",
+      "pattern": "^[0-9a-f]{2}$",
+      "not": {
+        "const": "ff"
+      },
+      "default": "00"
+    },
+    "traceId": {
+      "type": "string",
+      "description": "The 16-byte trace ID. Must not be all zeros.",
+      "pattern": "^[0-9a-f]{32}$",
+      "not": {
+        "const": "00000000000000000000000000000000"
+      }
+    },
+    "spanId": {
+      "type": "string",
+      "description": "The 8-byte span ID. Must not be all zeros.",
+      "pattern": "^[0-9a-f]{16}$",
+      "not": {
+        "const": "0000000000000000"
+      }
+    },
+    "traceFlags": {
+      "type": "string",
+      "description": "The 8-bit trace flags.",
+      "pattern": "^[0-9a-f]{2}$"
+    }
+  },
+  "required": [
+    "version",
+    "traceId",
+    "spanId",
+    "traceFlags"
+  ]
+}

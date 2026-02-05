@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "CDC Entity State for B2C Customer",
+  "description": "Schema for CDC event of B2C customer",
+  "allOf": [
+    {
+      "$ref": "{{ JSM `shared_infra_event_business-payload_1_0_0` }}"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "schemaId": {
+              "pattern": "customer_b2c-customer_1_0_0"
+            }
+          }
+        },
+        "data": {
+          "$ref": "{{ JSM `customer_b2c-customer_1_0_0` }}"
+        }
+      }
+    }
+  ]
+}

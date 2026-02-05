@@ -26,8 +26,11 @@ For more information, see the [JSON Schema Manager documentation](https://github
 
 ## Install JSON Schema Manager
 
+This will install or update the CLI - `jsm`.
+
 Mac or linux:
 ```bash
+brew update
 brew install jsm
 ```
 
