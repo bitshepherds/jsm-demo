@@ -30,7 +30,7 @@ This tutorial will walk you through the features of JSON Schema Manager (JSM).
 ## 1. Clone this repo
 
 ```bash
-git clone https://github.com/andyballingall/jsm-demo.git
+git clone https://github.com/bitshepherds/jsm-demo.git
 cd jsm-demo
 ```
 
@@ -61,7 +61,7 @@ jsm -v
 
 > [!NOTE]
 >
-> You can also download the latest release from [GitHub](https://github.com/andyballingall/json-schema-manager/releases).
+> You can also download the latest release from [GitHub](https://github.com/bitshepherds/json-schema-manager/releases).
 
 ## 3. Introducing the registry
 
@@ -423,4 +423,3 @@ jsm validate -w -v -r tutorial finance/payments/
 ## 8. Composing schemas
 
 The data that JSON Schema is used to validate is often highly structured and complex, especially in enterprise situations. Additionally, the same sub-structures are often used many times in different schemas. Simple examples might be addresses, or the specific format of a customer-facing ID, but for our schema example, let's imagine we want to capture the location of the device that generated the payment instruction.
-
