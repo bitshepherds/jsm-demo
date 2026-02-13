@@ -70,9 +70,16 @@ JSON Schema Maanager (JSM) makes this easy.
 
 We welcome contributions of any kind, but please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
+## Maintainers
+
+This project is jointly owned by:
+
+- Andy Ballingall
+- Bit Shepherds Limited
+
 > [!TIP]
 >
-> If you'd like to help with the development of JSM itself (i.e. the `jsm` CLI tool), head over to [github.com/andyballingall/json-schema-manager](https://github.com/andyballingall/json-schema-manager).
+> If you'd like to help with the development of JSM itself (i.e. the `jsm` CLI tool), head over to [github.com/bitshepherds/json-schema-manager](https://github.com/bitshepherds/json-schema-manager).
 
 ## Licence
 
