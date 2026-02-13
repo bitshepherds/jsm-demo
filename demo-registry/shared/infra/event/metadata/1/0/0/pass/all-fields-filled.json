@@ -1,0 +1,9 @@
+{
+  "schemaId": "https://schema.example.com/domain_family_1_2_3.schema.json",
+  "traceParent": {
+    "version": "00",
+    "traceId": "0af7651916cd43dd8448eb211c80319c",
+    "spanId": "0af7651916cd43dd",
+    "traceFlags": "01"
+  }
+}

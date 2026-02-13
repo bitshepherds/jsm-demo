@@ -1,7 +1,10 @@
 {
   "recommendations": [
-    "ms-vscode.makefile-tools",
-    "yzhang.markdown-all-in-one",
-    "gruntfuggly.todo-tree"
+    "esbenp.prettier-vscode",
+    "davidanson.vscode-markdownlint",
+    "bierner.markdown-mermaid",
+    "bierner.github-markdown-preview",
+    "redhat.vscode-yaml",
+    "ms-vscode.makefile-tools"
   ]
 }

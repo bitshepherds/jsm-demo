@@ -21,7 +21,9 @@ commit-msg:
 pre-commit:
   parallel: true
   commands:
+    fmt:
+      glob: '*.{md,json,yml}'
+      run: bun x prettier --write {staged_files} && git add {staged_files}
     lint:
-      run: go run scripts/lint/main.go
-    test-race:
-      run: jsm validate all
+      glob: '*.md'
+      run: bun x markdownlint-cli2 {staged_files}

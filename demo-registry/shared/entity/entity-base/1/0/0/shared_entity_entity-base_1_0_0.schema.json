@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "type": "object",
+  "title": "Entity Base",
+  "description": "Defines the properties common to all entities, whether stored in a document DB or being transported across a network.",
+  "properties": {
+    "entityBase": {
+      "type": "object",
+      "description": "The base properties for the entity.",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "description": "The version of the entity, incremented on each update.",
+          "minimum": 1
+        },
+        "schemaId": {
+          "type": "string",
+          "format": "uri",
+          "pattern": ".*\\.schema\\.json$",
+          "description": "The ID of the schema that the entity conforms to."
+        },
+        "traceParent": {
+          "description": "The W3C traceparent information for the last mutation of this entity.",
+          "$ref": "{{ JSM `shared_observability_traceparent_1_0_0` }}"
+        },
+        "audit": {
+          "$ref": "#/definitions/audit"
+        }
+      },
+      "required": ["version", "schemaId", "audit"]
+    }
+  },
+  "required": ["base"],
+  "definitions": {
+    "audit": {
+      "type": "object",
+      "description": "Audit information about the entity.",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the entity was created."
+        },
+        "createdByUserId": {
+          "type": "string",
+          "description": "The ID of the user who created the entity."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the entity was last updated."
+        },
+        "updatedByUserId": {
+          "type": "string",
+          "description": "The ID of the user who last updated the entity."
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the entity was soft-deleted."
+        },
+        "deletedByUserId": {
+          "type": "string",
+          "description": "The ID of the user who soft-deleted the entity."
+        }
+      },
+      "required": ["createdAt", "createdByUserId"]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "type": "object",
+  "description": "For event-driven payloads, represents metadata about the business information being transported, or other useful context.",
+  "properties": {
+    "schemaId": {
+      "type": "string",
+      "format": "uri",
+      "pattern": ".*\\.schema\\.json$",
+      "description": "The ID of the schema that the business payload conforms to."
+    },
+    "traceParent": {
+      "$ref": "{{ JSM `shared_observability_traceparent_1_0_0` }}"
+    }
+  },
+  "required": ["schemaId"]
+}

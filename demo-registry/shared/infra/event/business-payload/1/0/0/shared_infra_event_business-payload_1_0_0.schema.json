@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "type": "object",
+  "description": "Represents a business payload separated into data and metadata. E.g. for use in validating the 'detail' field of an AWS EventBridge Event.",
+  "properties": {
+    "metadata": {
+      "description": "Metadata about the business information within the data field.",
+      "$ref": "{{ JSM `shared_infra_event_metadata_1_0_0` }}"
+    },
+    "data": {
+      "description": "The business information. It must be validated by the JSON schema defined by metadata.schemaId"
+    }
+  },
+  "required": ["metadata", "data"],
+  "additionalProperties": false
+}

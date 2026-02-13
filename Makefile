@@ -1,36 +1,20 @@
-.PHONY: all build run clean test test-race test-cover check-coverage cover-html lint fmt snapshot release-check setup
+.PHONY: all lint fmt setup clean
 
-all: build
-
-# Build the application
-build:
-	@go run scripts/build/main.go
-
-# Run GoReleaser snapshot
-snapshot:
-	@go run scripts/snapshot/main.go
-
-# Run the application
-run:
-	@go run cmd/jsm/main.go
-
-# Clean build artifacts
-clean:
-	@go run scripts/clean/main.go
-	@go clean
-
-# Run tests
-test:
-	@go run scripts/tester/main.go ./... -v
+all: lint fmt
 
 # Run linter
 lint:
-	@go run scripts/lint/main.go
+	@bun run lint
 
-# Format code with gofumpt
+# Format code
 fmt:
-	@go run scripts/fmt/main.go
+	@bun run fmt
 
 # Setup development environment
 setup:
-	@go run scripts/setup/main.go
+	@bun install
+	@lefthook install
+
+# Clean build artifacts
+clean:
+	@rm -rf dist/

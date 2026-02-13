@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "B2C Customer Entity",
+  "description": "Schema for the B2C Customer Entity, as stored by the B2C Customer Service.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "{{ JSM `shared_entity_entity-base_1_0_0` }}"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "{{ JSM `customer_id_b2c-customer-id_1_0_0` }}"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the customer"
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the customer",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "The phone number of the customer"
+        },
+        "billingAddress": {
+          "description": "The billing address of the customer",
+          "$ref": "{{ JSM `shared_location_address_global-address_1_0_0` }}"
+        },
+        "shippingAddresses": {
+          "type": "array",
+          "description": "The shipping addresses of the customer",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "The title of the shipping address"
+              },
+              "address": {
+                "$ref": "{{ JSM `shared_location_address_global-address_1_0_0` }}"
+              }
+            },
+            "required": ["title", "address"]
+          }
+        },
+        "gdprErasedAt": {
+          "type": ["string", "null"],
+          "description": "The date and time the customer's PII data was erased",
+          "format": "date-time"
+        },
+        "status": {
+          "description": "The status of the customer - Extendable enum as we expect to add more statuses in the future",
+          "anyOf": [
+            {
+              "enum": ["active", "inactive", "suspended", "closed", "gdpr-erased"]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "membershipTier": {
+          "type": "string",
+          "description": "The membership tier of the customer. We're certain never to add more tiers in the future",
+          "enum": ["bronze", "silver", "gold"]
+        }
+      },
+      "required": ["customerId", "firstName", "lastName", "email", "status"]
+    }
+  ]
+}

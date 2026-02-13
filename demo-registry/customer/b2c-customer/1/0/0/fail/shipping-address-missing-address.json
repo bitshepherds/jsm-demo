@@ -1,0 +1,12 @@
+{
+  "customerId": "1234-5678-9012",
+  "firstName": "Alice",
+  "lastName": "Smith",
+  "email": "alice.smith@example.com",
+  "status": "active",
+  "shippingAddresses": [
+    {
+      "title": "Home"
+    }
+  ]
+}

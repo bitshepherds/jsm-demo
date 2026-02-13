@@ -1,33 +1,32 @@
 {
-  "editor.rulers": [
-    120
-  ],
-  // Enable format on save
+  "editor.rulers": [120],
   "editor.formatOnSave": true,
   "editor.detectIndentation": false,
-  // Go-specific settings
   "makefile.configureOnOpen": false,
+  // Language Specific Settings
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features",
     "editor.tabSize": 2,
-    "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.insertSpaces": true
   },
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features",
     "editor.tabSize": 2,
-    "editor.insertSpaces": true,
-    "editor.formatOnSave": true
+    "editor.insertSpaces": true
   },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.autoIndent": "advanced"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "on"
+  },
+  // Tool Configurations
   "yaml.format.enable": true,
   "yaml.validate": true,
   "yaml.hover": true,
-  "yaml.completion": true,
-  "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
-    "editor.formatOnSave": true,
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.autoIndent": "advanced"
-  }
+  "yaml.completion": true
 }
