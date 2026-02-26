@@ -26,6 +26,10 @@
         "completed",
         "failed"
       ]
+    },
+    "location": {
+      "type": "object",
+      "$ref": "{{ JSM `util_location_wgs-84_1_0_0` }}"
     }
   },
   "required": [
@@ -33,6 +37,7 @@
     "paymentDate",
     "amount",
     "currency",
-    "status"
+    "status",
+    "location"
   ]
 }
