@@ -55,12 +55,12 @@ JSON Schema Maanager (JSM) makes this easy.
 - **Schema Testing** - A badly written JSON schema may validate bad data. JSM provides a framework for testing schemas with both passing and failing JSON documents, so that you can prove your schema offers enterprise-grade validation.
 - **Schema Versioning** - JSM enforces semantically versioned schemas. Use JSM in your CI/CD pipeline to prevent changes to already published schemas, and during development, where a supposedly 'non-breaking' minor version change would actually break consumers in production if deployed.
 - **Schema Publishing** - Use JSM in your CI/CD pipeline to render distribution versions of your schemas for deployment to different environments.
-- **Compliant and Blazingly Fast** - JSM is lightning-quick, and uses the [github.com/santhosh-tekuri/jsonschema/v6](https://github.com/santhosh-tekuri/jsonschema/v6) library for JSON Schema validation, which provides 100% compliance for all major versions of the JSON Schema standards.
+- **Compliant and Performant** - JSM is written in Go, and can run thousands of tests a second. It uses the [github.com/santhosh-tekuri/jsonschema/v6](https://github.com/santhosh-tekuri/jsonschema/v6) library for JSON Schema validation, which provides 100% compliance for all major versions of the JSON Schema standards.
 
 ## Learn
 
-- [Tutorial](docs/tutorial.md) - discover how JSM can help you build bulletproof information systems.
-- [Decoupled services, data evolution, and semantic versioning](docs/decouple.md) - find out why semantic versioning is such a game changer for JSON Schemas.
+- [Tutorial](docs/tutorial.md) - learn by doing.
+- [Decoupled services, data evolution, and semantic versioning](docs/decouple.md) - find out why semantic versioning is so important for JSON Schemas.
 
 ## Contributing
 

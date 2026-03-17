@@ -14,6 +14,8 @@ This tutorial will walk you through the features of JSON Schema Manager (JSM).
   - [Using a reusable schema](#using-a-reusable-schema)
   - [Updating tests for new schema versions](#updating-tests-for-new-schema-versions)
   - [Testing references to other schemas](#testing-references-to-other-schemas)
+- [9. Building distribution schemas](#9-building-distribution-schemas)
+  - [Rendering schemas for an environment](#rendering-schemas-for-an-environment)
 
 ## 1. Clone this repo
 
@@ -677,3 +679,57 @@ Instead, we just need to test for the presence of the location property, as we'v
 > [!TIP]
 >
 > Always cleanly separate testing concerns between schemas. This is especially important when dealing with complex schemas which involve many nested references.
+
+## 9. Building distribution schemas
+
+The schemas within a registry are _source code_. The `jsm build-dist <env>` command will _render_ distributable schemas for the given environment that can be published for use by consumers.
+
+> [!Tip]
+>
+> Define your environments in the `json-schema-manager-config.yml` file in your registry.
+
+Rendering does the following:
+
+- The `{{ ID }}`) template is replaced by the canonical ID of the schema for the given environment. This is the URL the schema would be found at if published.
+- All `{{ JSM <schema key> }}` templates are replaced by the correct schema URLs.
+- Schemas are rendered to a location within the `/dist` directory.
+
+### Rendering schemas for an environment
+
+Let's try that now with the following command:
+
+```bash
+jsm build-dist dev
+```
+
+This renders schemas for your `dev` environment.
+
+You should see a `/dist` directory appear. Take a look inside:
+
+```bash
+dist/
+  dev/
+    private/
+      finance_payments_payment-instruction_1_0_0.schema.json
+      finance_payments_payment-instruction_1_1_0.schema.json
+      finance_payments_payment-instruction_1_2_0.schema.json
+    public/
+      (empty)
+```
+
+The command has written 3 JSON schemas to the `dist/dev/private' folder.
+
+Open the last of these - `dist/dev/private/finance_payments_payment-instruction_1_2_0.schema.json`. Some interesting things to note:
+
+1. The `$id` property is now set to the _canonical ID_ of the JSON Schema - i.e. the URL to use if published for consumption by a service. In this case it is `https://dev.json-schemas.internal.example.com/finance_payments_payment-instruction_1_0_0.schema.json`, and it uses the `privateUrlRoot` specified for the `dev` environment in the registry's `json-schema-manager-config.yml` file.
+2. The `location` definition's `$ref` property is now set to `https://dev.json-schemas.internal.example.com/util_location_wgs-84_1_0_0.schema.json` - the URL of the schema once published.
+
+> [!TIP]
+>
+> JSM treats JSON Schemas as private by default. To indicate that a given schema is intended for public consumption - using the `publicUrlRoot` prefixes you define in the `json-schema-manager-config.yml` file, add the following to your JSON schema:
+>
+>```json
+>"x-public": true
+>```
+>
+>Public schemas will be rendered to the `dist/public` directory.

@@ -12,7 +12,7 @@ graph LR
     PS ====>|&nbsp;Payment&nbsp;<br/>Events&nbsp;| PSS
 ```
 
-Let's imagine that both teams agree to use a schema called `payment.schema.json` to check that data they are sending or receiving is valid.
+Let's imagine that both teams agree to use a schema called `payment.schema.json` to check that payment data they are sending or receiving is valid.
 
 ```mermaid
 graph LR
@@ -27,21 +27,13 @@ graph LR
     PS ===>|&nbsp;Payment&nbsp;<br/>Events| PSS
 ```
 
-That's great! Or is it? Later, Team A want to add a new feature which needs a new mandatory property `terms`in the Payment data. What is the right approach?
+## 'Non Breaking' Changes can break things.
 
-## The bad way, take 1
+Later, Team A need to add a new required field to support a new feature. They make their changes to the schema and their service, then deploy the schema, and then the payment service.
 
-1. Team A makes their changes to the schema and service.
-2. Team A deploys the new schema.
+Team B's service picks up the new schema, then continues outstanding processing payment events sent before the change. The validation fails because the new required property is missing.
 
-   > [!WARNING]
-   >
-   > If either service restarts or scales at this point, it will break because it will re-read the schema which now expects a property that neither service is sending/receiving.
-
-3. Team A deploys their new service.
-4. Team B's service will break **if** the new data format is incompatible with the schema they are still using, but it's hard for either team to check that.
-
-## The bad way, take 2
+## 'Breaking' changes require coordination
 
 1. Team A calls Team 2 and says "We need to change the Payment Instruction schema."
 2. Team B are annoyed. They have their own priorities, but they agree to work together on changing their services
