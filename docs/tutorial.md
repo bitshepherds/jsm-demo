@@ -15,7 +15,7 @@ This tutorial will walk you through the features of JSON Schema Manager (JSM).
   - [Updating tests for new schema versions](#updating-tests-for-new-schema-versions)
   - [Testing references to other schemas](#testing-references-to-other-schemas)
 - [9. Building distribution schemas](#9-building-distribution-schemas)
-  - [Rendering schemas for an environment](#rendering-schemas-for-an-environment)
+  - [Rendering and mutability](#rendering-and-mutability)
 
 ## 1. Clone this repo
 
@@ -694,8 +694,6 @@ Rendering does the following:
 - All `{{ JSM <schema key> }}` templates are replaced by the correct schema URLs.
 - Schemas are rendered to a location within the `/dist` directory.
 
-### Rendering schemas for an environment
-
 Let's try that now with the following command:
 
 ```bash
@@ -733,3 +731,8 @@ Open the last of these - `dist/dev/private/finance_payments_payment-instruction_
 >```
 >
 >Public schemas will be rendered to the `dist/public` directory.
+
+### Rendering and mutability
+
+Production schemas should never change, and JSM will explicitly check whether changes to a schema which had previously been merged
+
