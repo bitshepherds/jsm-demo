@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # A main commit, since v1.3.0 exits 0 when a test fails. Move to the next release tag once it is out.
+  JSM_VERSION: 99aad9104142430f4f37a652642594a3b45ec4b3
+
+jobs:
+  validate:
+    name: Validate ${{ matrix.registry }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        registry: [demo-registry, tutorial-solution]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+
+      - name: Install jsm
+        run: go install github.com/bitshepherds/json-schema-manager/cmd/jsm@${JSM_VERSION}
+
+      - name: Test every schema, and that no version breaks an earlier one
+        run: jsm validate all --continue-on-error
+        env:
+          JSM_REGISTRY_ROOT_DIR: ${{ matrix.registry }}
