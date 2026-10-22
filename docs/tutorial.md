@@ -708,20 +708,17 @@ Rendering does the following:
 - All `{{ JSM <schema key> }}` templates are replaced by the correct schema URLs.
 - Schemas are rendered to a location within the `dist` directory, at the root of the git repository.
 
-`build-dist` builds the schemas which have changed since they were last deployed to the environment, and it finds them with git. So first, commit your work:
+Build every schema in the registry for the `dev` environment:
 
 ```bash
-git add tutorial
-git commit -m "Tutorial schemas"
+jsm build-dist dev --all
 ```
 
-Now build the schemas for the `dev` environment:
+Before it builds anything, `build-dist` runs every schema's tests, as `jsm validate all` does, and builds nothing if any fail.
 
-```bash
-jsm build-dist dev
-```
-
-Before it builds anything, `build-dist` runs every schema's tests, as `jsm validate all` does, and builds nothing if any fail. We haven't deployed to `dev` yet, so it treats every schema as new.
+> [!NOTE]
+>
+> In a CI pipeline, leave out `--all`. Then `build-dist` builds only the schemas which have changed since the last deployment to the environment, which it finds with git, so it saves rebuilding schemas which have not changed. It also checks first that no deployed schema was changed, where the environment forbids it. `--all` builds every schema on disk, committed or not, which suits trying things out locally.
 
 You should see a `dist` directory appear. Take a look inside:
 
@@ -766,7 +763,14 @@ JSM does not publish the `dist` directory for you: copy it to wherever your sche
 
 Production schemas should never change, and JSM will explicitly check whether changes to a schema which had previously been deployed to an environment are allowed there.
 
-After a deployment, record it with a git tag:
+After a deployment, record it with a git tag. The tag marks a commit, so first commit your work:
+
+```bash
+git add tutorial
+git commit -m "Tutorial schemas"
+```
+
+Then tag the deployment to each environment:
 
 ```bash
 jsm tag-deployment dev --no-push
@@ -787,7 +791,7 @@ jsm check-changes prod
 `dev` sets `allowSchemaMutation: true`, so the change is allowed there: `All changes are valid`. `prod` does not, so it fails:
 
 ```text
-Error: cannot modify deployed schemas or their test documents: [tutorial/finance/payments/payment-instruction/1/0/0/finance_payments_payment-instruction_1_0_0.schema.json]
+Error: cannot modify deployed schemas or their test documents: [<path/to>/tutorial/finance/payments/payment-instruction/1/0/0/finance_payments_payment-instruction_1_0_0.schema.json]
 ```
 
 `jsm build-dist prod` fails the same way, so the changed schema can never reach production. To change a deployed production schema, create a new version of it, as we did in [Evolving schemas](#7-evolving-schemas).
