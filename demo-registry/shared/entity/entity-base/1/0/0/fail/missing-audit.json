@@ -1,0 +1,12 @@
+{
+  "entityBase": {
+    "version": 1,
+    "schemaId": "https://schema.example.com/a-domain_an-entity_1_0_0.schema.json",
+    "traceParent": {
+      "version": "00",
+      "traceId": "0af7651916cd43dd8448eb211c80319c",
+      "spanId": "0af7651916cd43dd",
+      "traceFlags": "01"
+    }
+  }
+}

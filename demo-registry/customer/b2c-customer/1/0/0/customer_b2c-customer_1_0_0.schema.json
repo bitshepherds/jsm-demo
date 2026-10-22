@@ -11,7 +11,7 @@
     {
       "type": "object",
       "properties": {
-        "id": {
+        "customerId": {
           "$ref": "{{ JSM `customer_id_b2c-customer-id_1_0_0` }}"
         },
         "firstName": {

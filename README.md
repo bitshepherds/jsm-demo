@@ -61,6 +61,7 @@ JSON Schema Maanager (JSM) makes this easy.
 
 - [Tutorial](docs/tutorial.md) - learn by doing.
 - [Decoupled services, data evolution, and semantic versioning](docs/decouple.md) - find out why semantic versioning is so important for JSON Schemas.
+- [Avoiding breaking changes](docs/avoiding-breaking-changes.md) - changes which look safe, but break consumers, and how JSM catches them.
 
 ## Contributing
 
