@@ -31,7 +31,7 @@
       "required": ["version", "schemaId", "audit"]
     }
   },
-  "required": ["base"],
+  "required": ["entityBase"],
   "definitions": {
     "audit": {
       "type": "object",

@@ -2,6 +2,10 @@
 
 This tutorial will walk you through the features of JSON Schema Manager (JSM).
 
+> [!TIP]
+>
+> The [`tutorial-solution`](../tutorial-solution) directory holds the registry as it is at the end of the tutorial. Compare your files with it if you get stuck.
+
 - [1. Clone this repo](#1-clone-this-repo)
 - [2. Install JSON Schema Manager](#2-install-json-schema-manager)
 - [3. Introducing the registry](#3-introducing-the-registry)
@@ -16,6 +20,7 @@ This tutorial will walk you through the features of JSON Schema Manager (JSM).
   - [Testing references to other schemas](#testing-references-to-other-schemas)
 - [9. Building distribution schemas](#9-building-distribution-schemas)
   - [Rendering and mutability](#rendering-and-mutability)
+- [Next steps](#next-steps)
 
 ## 1. Clone this repo
 
@@ -33,25 +38,26 @@ cd jsm-demo
 > Don't have Homebrew? First [install it from here](https://brew.sh/).
 
 ```bash
-brew update
-brew install jsm
+brew install bitshepherds/tap/jsm
 ```
 
 ### Installing on Windows <!-- omit in toc -->
 
+Download the Windows archive for your machine from the latest [release](https://github.com/bitshepherds/json-schema-manager/releases), extract `jsm.exe`, and put it in a directory on your `PATH`.
+
+### Installing with Go <!-- omit in toc -->
+
+If you have [Go](https://go.dev/) installed, on any platform:
+
 ```bash
-TODO
+go install github.com/bitshepherds/json-schema-manager/cmd/jsm@latest
 ```
 
 ### Test that the install worked <!-- omit in toc -->
 
 ```bash
-jsm -v
+jsm --version
 ```
-
-> [!NOTE]
->
-> You can also download the latest release from [GitHub](https://github.com/bitshepherds/json-schema-manager/releases).
 
 ## 3. Introducing the registry
 
@@ -77,7 +83,7 @@ jsm create-registry ./tutorial
 
 A registry's configuration is stored in the `json-schema-manager-config.yml` file in the root directory of the registry. Let's take a look at it. Open:
 
-```
+```text
 tutorial/json-schema-manager-config.yml
 ```
 
@@ -97,6 +103,8 @@ Most `jsm` commands operate on a registry. There are two ways to specify it:
 
 1. With the `--registry` or `-r` flag
 2. With the `JSM_REGISTRY_ROOT_DIR` environment variable
+
+Without either, `jsm` uses the current directory.
 
 We'll use option 2. Set the environment with one of the commands below:
 
@@ -176,19 +184,19 @@ Putting it all together, the directory structure looks like this:
 Looking again at the command you typed, the last element is always the family name, and all the other elements are domain levels.
 
 ```text
-jsm create-schema -r tutorial finance/payments/payment-instruction
-                              -------/--------/-------------------
-                                 |       |            |
-                Domain........finance    |            |
-                Sub-domain............payments        |
-                SCHEMA FAMILY..................payment-instruction
+jsm create-schema finance/payments/payment-instruction
+                  -------/--------/-------------------
+                     |       |            |
+    Domain........finance    |            |
+    Sub-domain............payments        |
+    SCHEMA FAMILY..................payment-instruction
 
 ```
 
 This is the structure the command created:
 
 ```text
-src/
+tutorial/
   finance/
     payments/
       payment-instruction/
@@ -229,7 +237,7 @@ Here's an example of good data - copy it into the file.
 
 > [!NOTE]
 >
-> In real life, reasoning about the right data structure can be a lengthy process. Later, we'll cover how complex data can be decomposed into simpler building blocks, some of which are reusable. Also, check out [Domain-Driven Design](geeksforgeeks.org/system-design/domain-driven-design-ddd/).
+> In real life, reasoning about the right data structure can be a lengthy process. Later, we'll cover how complex data can be decomposed into simpler building blocks, some of which are reusable. Also, check out [Domain-Driven Design](https://www.geeksforgeeks.org/system-design/domain-driven-design-ddd/).
 
 ### Update the schema file <!-- omit in toc -->
 
@@ -253,7 +261,7 @@ It will look like this:
 There are a couple of things to call out:
 
 - `$schema` is the version of the JSON Schema standard defined by the registry config file. (See `tutorial/json-schema-manager-config.yml`)
-- `$id` in JSON Schema represents the canonical URL for the schema - I.e. the URL that services use to load the schema in an environment. **Always** leave it set to `{{ ID }}`. JSM will automatically replace it when it creates a distribution version for a target environment. (See `jsm build-dist` TODO LINK below).
+- `$id` in JSON Schema represents the canonical URL for the schema - I.e. the URL that services use to load the schema in an environment. **Always** leave it set to `{{ ID }}`. JSM will automatically replace it when it creates a distribution version for a target environment. (See [Building distribution schemas](#9-building-distribution-schemas) below.) A schema which sets `$id` to anything else fails its tests.
 
 Other than that, it's a standard JSON Schema.
 
@@ -306,6 +314,8 @@ jsm validate -v finance/payments/payment-instruction/1/0/0
 > Type `jsm validate --help` to see all the options available for the `validate` command.
 
 The `-v` flag (or `--verbose`) will show us which schemas were tested with which test documents. In our case, it tested `finance_payments_payment-instruction_1_0_0.schema.json` against `all-properties.json` and found that it passed.
+
+The schema is marked `[WARN]`, with `! no fail documents`: we haven't yet written a document it should reject. We'll fix that next. The `coverage` line says how many of the schema's properties our passing documents use.
 
 ### Adding a failing test <!-- omit in toc -->
 
@@ -361,11 +371,13 @@ jsm validate -v finance/payments/payment-instruction/1/0/0
 
 It passes! And next to our failing test, it reports `failed, as expected`. Our failing test is showing that when our schema is asked to validate a document containing that flaw, it will reject it.
 
-Usually, you would create many failing tests to cover all the ways the data could be broken, but we'll move on to the next topic. Two things to bear in mind:
+Usually, you would create many failing tests to cover all the ways the data could be broken, but we'll move on to the next topic. Two things to bear in mind. First:
 
 > [!TIP]
 >
 > If you find a flaw in your schema later after deployment to a non-production environment, and your registry config (`json-schema-manager-config.yml`) has `allowSchemaMutation: true` for that environment, then you can simply update the schema file and redeploy it.
+
+Second:
 
 > [!WARNING]
 >
@@ -393,9 +405,9 @@ This did the following for you:
 
 Cool! Now let's make some changes to the new version we just created. It's the same process as before...
 
-### Define a passing test document <!-- omit in toc -->
+### Update the passing test document <!-- omit in toc -->
 
-The command we ran already copied `all-properties.json`. You'll find the new version in `tutorial/finance/payments/payment-instruction/1.1.0/pass/all-properties.json`.
+The command we ran already copied `all-properties.json`. You'll find the new version in `tutorial/finance/payments/payment-instruction/1/1/0/pass/all-properties.json`.
 
 Let's augment it with a status property:
 
@@ -419,9 +431,11 @@ jsm validate -v finance/payments/payment-instruction/1/1/0
 
 The tests passed, even though we added a new property to the passing test document. This isn't surprising, because the precursor schema didn't set `additionalProperties: false`, so it doesn't care if it sees a property it doesn't know about. This is a good thing, because it means if a consumer using an earlier version of our schema sees that data, it will still validate and not break the consumer.
 
+In fact, JSM checked exactly that. Look for `test from future version 1.1.0 passed` in the output: JSM also ran the `1.1.0` passing document against the `1.0.0` schema. Every passing document of a version must be accepted by each earlier version with the same major version, because consumers still using an earlier version will receive it.
+
 ### Update the schema to define the new status property <!-- omit in toc -->
 
-Open `tutorial/finance/payments/payment-instruction/1.1.0/finance_payments_payment-instruction_1_1_0.schema.json` and add the following property definition:
+Open `tutorial/finance/payments/payment-instruction/1/1/0/finance_payments_payment-instruction_1_1_0.schema.json` and add the following property definition:
 
 ```json
     "status": {
@@ -690,49 +704,105 @@ The schemas within a registry are _source code_. The `jsm build-dist <env>` comm
 
 Rendering does the following:
 
-- The `{{ ID }}`) template is replaced by the canonical ID of the schema for the given environment. This is the URL the schema would be found at if published.
+- The `{{ ID }}` template is replaced by the canonical ID of the schema for the given environment. This is the URL the schema would be found at if published.
 - All `{{ JSM <schema key> }}` templates are replaced by the correct schema URLs.
-- Schemas are rendered to a location within the `/dist` directory.
+- Schemas are rendered to a location within the `dist` directory, at the root of the git repository.
 
-Let's try that now with the following command:
+`build-dist` builds the schemas which have changed since they were last deployed to the environment, and it finds them with git. So first, commit your work:
+
+```bash
+git add tutorial
+git commit -m "Tutorial schemas"
+```
+
+Now build the schemas for the `dev` environment:
 
 ```bash
 jsm build-dist dev
 ```
 
-This renders schemas for your `dev` environment.
+Before it builds anything, `build-dist` runs every schema's tests, as `jsm validate all` does, and builds nothing if any fail. We haven't deployed to `dev` yet, so it treats every schema as new.
 
-You should see a `/dist` directory appear. Take a look inside:
+You should see a `dist` directory appear. Take a look inside:
 
-```bash
+```text
 dist/
   dev/
     private/
       finance_payments_payment-instruction_1_0_0.schema.json
       finance_payments_payment-instruction_1_1_0.schema.json
       finance_payments_payment-instruction_1_2_0.schema.json
+      util_location_wgs-84_1_0_0.schema.json
     public/
       (empty)
 ```
 
-The command has written 3 JSON schemas to the `dist/dev/private' folder.
+The command has written 4 JSON schemas to the `dist/dev/private` folder.
 
-Open the last of these - `dist/dev/private/finance_payments_payment-instruction_1_2_0.schema.json`. Some interesting things to note:
+Open `dist/dev/private/finance_payments_payment-instruction_1_2_0.schema.json`. Some interesting things to note:
 
-1. The `$id` property is now set to the _canonical ID_ of the JSON Schema - i.e. the URL to use if published for consumption by a service. In this case it is `https://dev.json-schemas.internal.example.com/finance_payments_payment-instruction_1_0_0.schema.json`, and it uses the `privateUrlRoot` specified for the `dev` environment in the registry's `json-schema-manager-config.yml` file.
+1. The `$id` property is now set to the _canonical ID_ of the JSON Schema - i.e. the URL to use if published for consumption by a service. In this case it is `https://dev.json-schemas.internal.example.com/finance_payments_payment-instruction_1_2_0.schema.json`, and it uses the `privateUrlRoot` specified for the `dev` environment in the registry's `json-schema-manager-config.yml` file.
 2. The `location` definition's `$ref` property is now set to `https://dev.json-schemas.internal.example.com/util_location_wgs-84_1_0_0.schema.json` - the URL of the schema once published.
 
 > [!TIP]
 >
 > JSM treats JSON Schemas as private by default. To indicate that a given schema is intended for public consumption - using the `publicUrlRoot` prefixes you define in the `json-schema-manager-config.yml` file, add the following to your JSON schema:
 >
->```json
->"x-public": true
->```
+> ```json
+> "x-public": true
+> ```
 >
->Public schemas will be rendered to the `dist/public` directory.
+> Public schemas will be rendered to the `dist/<env>/public` directory.
+
+To make each schema stand alone, collapse it:
+
+> [!TIP]
+>
+> Add `--collapse` to inline the schemas a schema refers to, such as the WGS-84 location, so that each file in `dist` stands alone. That suits code generators and API tools.
+
+JSM does not publish the `dist` directory for you: copy it to wherever your schemas are served from, at the URL roots in the configuration file.
 
 ### Rendering and mutability
 
-Production schemas should never change, and JSM will explicitly check whether changes to a schema which had previously been merged
+Production schemas should never change, and JSM will explicitly check whether changes to a schema which had previously been deployed to an environment are allowed there.
 
+After a deployment, record it with a git tag:
+
+```bash
+jsm tag-deployment dev --no-push
+jsm tag-deployment prod --no-push
+```
+
+> [!NOTE]
+>
+> In a real pipeline, leave out `--no-push`, so the tag is pushed to your repository's `origin` and later pipeline runs find it.
+
+`check-changes` and `build-dist` compare the registry with the newest tag for the environment. Let's pretend `1.0.0` of the payment instruction needs a fix. Open `tutorial/finance/payments/payment-instruction/1/0/0/finance_payments_payment-instruction_1_0_0.schema.json`, and add `"maxLength": 3` to the `currency` property. Then check the changes against each environment:
+
+```bash
+jsm check-changes dev
+jsm check-changes prod
+```
+
+`dev` sets `allowSchemaMutation: true`, so the change is allowed there: `All changes are valid`. `prod` does not, so it fails:
+
+```text
+Error: cannot modify deployed schemas or their test documents: [tutorial/finance/payments/payment-instruction/1/0/0/finance_payments_payment-instruction_1_0_0.schema.json]
+```
+
+`jsm build-dist prod` fails the same way, so the changed schema can never reach production. To change a deployed production schema, create a new version of it, as we did in [Evolving schemas](#7-evolving-schemas).
+
+Undo the change before you carry on:
+
+```bash
+git checkout tutorial/finance/payments/payment-instruction/1/0/0
+```
+
+## Next steps
+
+You now have a registry with tested, versioned, composed schemas, and know how to build them for an environment. To go further, see the JSM docs:
+
+- [Developing Schemas](https://github.com/bitshepherds/json-schema-manager/blob/main/user-docs/developing-schemas.md) - every command, running JSM in CI, and how JSM checks compatibility.
+- [Generating Typed Models](https://github.com/bitshepherds/json-schema-manager/blob/main/user-docs/generating-models.md) - TypeScript and Go from your schemas.
+- [Referring to JSM Schemas from AsyncAPI and OpenAPI](https://github.com/bitshepherds/json-schema-manager/blob/main/user-docs/api-documents.md).
+- [Avoiding breaking changes](./avoiding-breaking-changes.md) - changes which look safe, but are not.
