@@ -2,55 +2,57 @@
 
 [![Licence](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+A schema is a contract, and how it is used decides which changes to it are safe. Adding a field to an API response harms no one who reads it, but making a field required in a request breaks every client that leaves it out. JSM, the [JSON Schema Manager](https://github.com/bitshepherds/json-schema-manager), knows how each of your schemas is used. It runs your test documents across versions in the direction that use protects, and refuses a change that would break a reader or a writer, before it reaches production. This repo shows it working on a small example you can run in a few minutes.
+
 ## Contents <!-- omit in toc -->
 
-- [Introduction](#introduction)
-- [Why use JSON Schema?](#why-use-json-schema)
-- [Why use JSON Schema Manager (JSM)?](#why-use-json-schema-manager-jsm)
-- [JSM Features](#jsm-features)
+- [Quick start](#quick-start)
+- [Installing JSM for your own work](#installing-jsm-for-your-own-work)
+- [What's here](#whats-here)
 - [Contributing](#contributing)
 - [Maintainers](#maintainers)
 - [Licence](#licence)
 
-## Introduction
+## Quick start
 
-This repo demonstrates how to use `jsm` - the JSON Schema Manager - a command-line tool that makes it easy to write, test, and publish to multiple environments enterprise-grade JSON Schemas for an organisation's data.
+You need [Go](https://go.dev/dl/) 1.27.3 or later, and nothing else: this repo pins JSM in `go.mod`, and `go tool jsm` fetches and runs that version the first time you use it.
 
-## Why use JSON Schema?
+```sh
+git clone https://github.com/bitshepherds/jsm-demo.git
+cd jsm-demo
+go tool jsm --version
+go tool jsm -r registry validate all -C
+```
 
-JSON is a ubiquitous data format, easily consumed and produce by languages and data services. JSON Schemas make excellent data contracts for data at rest (e.g. in a database or data lake), or in motion (e.g. in APIs and event streams).
+The last command checks every schema in the registry, and ends with `0 failed`. `-r registry` says where the registry is, and `-C` keeps going after a failure, so that you see every result.
 
-Validation and storage are entirely separate concerns. JSON Schema can form the heart of a portable validation strategy, allowing validation to be performed across your organisation against the same contracts, throughout the software delivery lifecycle:
+Then follow the walk-through, [Getting started: break and fix an API contract](docs/getting-started.md). In about fifteen minutes, you make the same change to an order API's request and its response. JSM passes it on one, refuses it on the other, and says why. Then you fix it.
 
-- **before** system implementation, when refining information concepts (e.g. with [Domain Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design))
-- **in test**, to validate that systems produce and consume information correctly, and
-- **in production**, to identify and isolate bad data early, minimising its impact on the production estate.
+> [!WARNING]
+>
+> Until [bitshepherds/json-schema-manager#158](https://github.com/bitshepherds/json-schema-manager/issues/158) is fixed, an exported `JSM_REGISTRY_ROOT_DIR` overrides the current folder. Either unset it, or always pass `-r`, as every command in this repo does.
 
-## Why use JSON Schema Manager (JSM)?
+## Installing JSM for your own work
 
-Managing JSON Schemas is usually a challange.
+To use JSM on your own schemas, install it with Go, then check its version:
 
-- Where do they live, and how do you organise and share them?
-- How do you enforce consistency across the organisation?
-- How do you easily compose schemas from other simpler schemas?
-- How do you test them effectively?
-- How do you enforce which version of the JSON Schema standard is used?
-- How do you easily change schemas over time as your needs change?
-- How do you prove that supposedly 'non breaking' changes are indeed non breaking?
-- How do you prevent people from changing published schemas?
-- How do you manage JSON Schema publication in different environments?
+```sh
+go install github.com/bitshepherds/json-schema-manager/v2/cmd/jsm@latest
+jsm --version
+```
 
-JSON Schema Maanager (JSM) makes this easy.
+Or pin it in your own repo's `go.mod`, as this one does, and run it as `go tool jsm`:
 
-## JSM Features
+```sh
+go get -tool github.com/bitshepherds/json-schema-manager/v2/cmd/jsm@latest
+```
 
-- **Schema Registry** - The registry is a directory in a repo dedicated to your organisation's schemas. JSM imposes strict rules about the folder structure and filenames of schemas and test documents within the registry.
-- **Schema Composition** - JSON Schemas are highly-composable. JSM makes it easy to reference schemas from other schemas, even if their locations change later, using the `{{ JSM <schema-key> }}` syntax.
-- **Schema IDs and URLs** - The `$id` property of a JSON schema should be the URI where the schema will be located once deployed. But that URI has to differ for each environment. JSM makes this easy with the `{{ ID }}` syntax.
-- **Schema Testing** - A badly written JSON schema may validate bad data. JSM provides a framework for testing schemas with both passing and failing JSON documents, so that you can prove your schema offers enterprise-grade validation.
-- **Schema Versioning** - JSM enforces semantically versioned schemas. Use JSM in your CI/CD pipeline to prevent changes to already published schemas, and during development, where a supposedly 'non-breaking' minor version change would actually break consumers in production if deployed.
-- **Schema Publishing** - Use JSM in your CI/CD pipeline to render distribution versions of your schemas for deployment to different environments.
-- **Compliant and Performant** - JSM is written in Go, and can run thousands of tests a second. It uses the [github.com/santhosh-tekuri/jsonschema/v6](https://github.com/santhosh-tekuri/jsonschema/v6) library for JSON Schema validation, which provides 100% compliance for all major versions of the JSON Schema standards.
+JSM's [user docs](https://github.com/bitshepherds/json-schema-manager/tree/v2.0.0/user-docs) explain the registry, the scenarios, and every command.
+
+## What's here
+
+- [`registry/`](registry/): the demo's schema registry. It holds an order API's request and response, each with versions `1.0.0` and `1.1.0` and their test documents.
+- [`docs/getting-started.md`](docs/getting-started.md): the walk-through. Every step in it is replayed on each change to this repo by [`scripts/replay-getting-started.sh`](scripts/replay-getting-started.sh), so it stays true.
 
 ## Contributing
 
