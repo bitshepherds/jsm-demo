@@ -14,28 +14,16 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  JSM_VERSION: v1.4.1
-
 jobs:
-  validate:
-    name: Validate ${{ matrix.registry }}
+  check:
+    name: check
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        registry: [demo-registry, tutorial-solution]
     steps:
       - uses: actions/checkout@v7
 
       - uses: actions/setup-go@v7
         with:
-          go-version: stable
-
-      - name: Install jsm
-        run: go install github.com/bitshepherds/json-schema-manager/cmd/jsm@${JSM_VERSION}
+          go-version-file: go.mod
 
       - name: Test every schema, and that no version breaks an earlier one
-        run: jsm validate all --continue-on-error
-        env:
-          JSM_REGISTRY_ROOT_DIR: ${{ matrix.registry }}
+        run: make check

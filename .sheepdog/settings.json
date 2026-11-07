@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/bitshepherds/sheepdog/main/schemas/settings_repo_5_0_0.schema.json",
   "repo": "bitshepherds/jsm-demo",
   "install": "bun install",
-  "gate": "for r in demo-registry tutorial-solution; do JSM_REGISTRY_ROOT_DIR=$r go run github.com/bitshepherds/json-schema-manager/cmd/jsm@v1.4.1 validate all --continue-on-error || exit 1; done",
+  "gate": "make check",
   "prTitleGate": "grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|deps)(\\(.*\\))?!?: .+'",
   "safetyNet": [
     "**/*.test.*",
@@ -53,11 +53,14 @@
   "survey": {
     "scripts": "d35c46d378f3",
     "workspaces": "4f53cda18c2b",
-    "makeTargets": "55e6bae93dec",
-    "ci": "33a569e72995",
+    "makeTargets": "df6b2ef75624",
+    "ci": "ae8941bae1bc",
     "hooks": "2485ba485215",
-    "lockfiles": "173c30209132",
+    "lockfiles": "448be305bc1c",
     "commitlint": "4f53cda18c2b",
     "toolchain": "4f53cda18c2b"
+  },
+  "ciTime": {
+    "job": "check"
   }
 }
