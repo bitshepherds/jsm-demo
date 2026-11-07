@@ -37,7 +37,7 @@ Start with who owns the contract: the one party that decides what the schema say
 
 In every scenario, each version must also accept its own pass documents and refuse its own fail documents, and no document runs across a major version: a new major version is how to make a change the scenario forbids.
 
-Once a version is deployed, it is frozen: JSM refuses an edit to its schema, its test documents or its exception entries, and deleting it while its documents may still be read. It still allows new test documents, new exception entries and new versions. How long documents live, which the scenario says, decides when a deployed version may go. [Deployed versions are frozen](../deployed-versions.md) shows it on these families.
+Once a version is deployed, it is frozen: JSM refuses an edit to its schema, its test documents or its exception entries, and deleting it while its documents may still be read. It still allows new test documents, new exception entries and new versions, removing an exception entry that clears nothing, and two changes to `family.yml`: moving `oldestLive` forward, and changing a migration statement. How long documents live, which the scenario says, decides when a deployed version may go. [Deployed versions are frozen](../deployed-versions.md) shows it on these families.
 
 ## How each page works
 
