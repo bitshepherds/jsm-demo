@@ -1,0 +1,4 @@
+# The order service itself, which owns the order request schema and reads every request.
+role: reader
+schemas:
+  - order_request_1_0_0

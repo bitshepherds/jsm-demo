@@ -31,4 +31,17 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Lint the Markdown, then test every schema, and that no version breaks an earlier one
-        run: make check
+        run: make lint validate
+
+  replay-getting-started:
+    name: replay-getting-started
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Replay every step of docs/getting-started.md
+        run: make replay

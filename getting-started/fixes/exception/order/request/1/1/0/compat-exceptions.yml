@@ -1,0 +1,5 @@
+exceptions:
+  - version: 1.0.0
+    document: pass/two-widgets.json
+    rule: no-tightening
+    reason: Every client already sends currency, as the order service has asked since 1.1.0 shipped.
