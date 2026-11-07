@@ -43,7 +43,8 @@
     "**/compat-exceptions.yml",
     "Makefile",
     "go.mod",
-    "scripts/**"
+    "scripts/**",
+    "package.json"
   ],
   "criticalPaths": [
     ".github/workflows/**",
