@@ -10,6 +10,6 @@
   },
   "scripts": {
     "fmt": "prettier --write \"**/*.{md,json,yml}\"",
-    "lint": "markdownlint-cli2 \"**/*.md\""
+    "lint": "markdownlint-cli2 $(git ls-files '*.md')"
   }
 }

@@ -25,5 +25,10 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Test every schema, and that no version breaks an earlier one
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dev dependencies, for Markdown lint
+        run: bun install --frozen-lockfile
+
+      - name: Lint the Markdown, then test every schema, and that no version breaks an earlier one
         run: make check
