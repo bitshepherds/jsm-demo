@@ -64,8 +64,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # check-changes needs the history and the deployment tags
 
       - uses: actions/setup-go@v7
         with:

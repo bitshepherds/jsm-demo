@@ -346,6 +346,8 @@ go tool jsm -r registry validate all -C
 Test summary: 57 passed, 0 failed, 2 excepted
 ```
 
+The 2 excepted runs are not yours: they are the deliberate exceptions of `customer/summary`, a family that [Deployed versions are frozen](deployed-versions.md#step-5-a-deployed-versions-exceptions) uses.
+
 ## What you have seen
 
 - **How a schema is used decides which changes are safe.** The same edit passed on the response, which the owner writes, and failed on the request, which the owner reads.

@@ -42,7 +42,7 @@ bun run lint
 - Bun and the dev dependencies: run `make setup`, or `bun install`, first.
 - [git](https://git-scm.com/downloads): the replay copies the checkout into a git repo of its own, and runs the page's `git restore` there.
 
-The scenario check needs only Go: it copies `registry/` to a temporary folder, makes each edit there, and leaves the checkout as it was. The deployed-versions replay copies the checkout into a git repo of its own, and makes its deployment tags there, never in your clone.
+The scenario check needs Go, and git with a git checkout of this repo: it copies `registry/` to a temporary folder, makes each edit there, and uses git to prove it left the checkout as it was. The deployed-versions replay copies the checkout into a git repo of its own, and makes its deployment tags there, never in your clone.
 
 ## 🚀 Commit Workflow
 
