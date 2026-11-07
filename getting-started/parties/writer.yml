@@ -1,0 +1,4 @@
+# A client of the order service, such as the shop's checkout page, which writes order requests.
+role: writer
+schemas:
+  - order_request_1_0_0

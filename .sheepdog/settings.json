@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/bitshepherds/sheepdog/main/schemas/settings_repo_5_0_0.schema.json",
   "repo": "bitshepherds/jsm-demo",
-  "install": "bun install",
+  "install": "bun install --frozen-lockfile",
   "gate": "make check",
   "prTitleGate": "grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|deps)(\\(.*\\))?!?: .+'",
   "safetyNet": [
@@ -38,11 +38,15 @@
     "**/pass/*.json",
     "**/fail/*.json",
     "**/.markdownlint*",
-    "**/json-schema-manager-config.yml"
+    "**/json-schema-manager-config.yml",
+    "**/family.yml",
+    "**/compat-exceptions.yml"
   ],
   "criticalPaths": [
     ".github/workflows/**",
-    "**/json-schema-manager-config.yml"
+    "**/json-schema-manager-config.yml",
+    "**/family.yml",
+    "**/compat-exceptions.yml"
   ],
   "practices": {
     "off": {
@@ -50,17 +54,23 @@
     }
   },
   "stance": "balanced",
+  "ciTime": {
+    "job": "check"
+  },
+  "ci": {
+    "expectedChecks": [
+      "check",
+      "replay-getting-started"
+    ]
+  },
   "survey": {
-    "scripts": "d35c46d378f3",
+    "scripts": "93f5896e555c",
     "workspaces": "4f53cda18c2b",
-    "makeTargets": "df6b2ef75624",
-    "ci": "ae8941bae1bc",
+    "makeTargets": "ced9a1a8eab4",
+    "ci": "d6e17e597774",
     "hooks": "2485ba485215",
     "lockfiles": "448be305bc1c",
     "commitlint": "4f53cda18c2b",
     "toolchain": "4f53cda18c2b"
-  },
-  "ciTime": {
-    "job": "check"
   }
 }

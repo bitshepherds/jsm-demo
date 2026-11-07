@@ -1,0 +1,4 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/main/user-docs/scenarios.md#2-owner-reads
+# owner-reads: the order service owns this schema and reads every request; its clients write them.
+scenario: owner-reads

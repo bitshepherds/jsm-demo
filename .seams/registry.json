@@ -21,7 +21,13 @@
       "testWorld": [
         {
           "side": "consumer",
-          "test": "jsm validate all (both registries)",
+          "test": "jsm -r registry validate all -C",
+          "tier": "pr",
+          "tool": "jsm"
+        },
+        {
+          "side": "consumer",
+          "test": "scripts/replay-getting-started.sh",
           "tier": "pr",
           "tool": "jsm"
         }

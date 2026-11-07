@@ -34,12 +34,13 @@ bun run lint
 
 ## ✅ Checks
 
-`make check` lints the tracked Markdown first, then validates every registry. Every pull request's CI check runs `make check`, so a Markdown style error fails it.
+`make check` lints the tracked Markdown first, then validates the registry, then replays every step of `docs/getting-started.md`. Every pull request's CI runs the same steps, `make lint validate` in its `check` job and `make replay` in its own job, so a Markdown style error fails it.
 
 `make check` needs:
 
 - [Go](https://go.dev/dl/), at the version `go.mod` pins. `go tool jsm` fetches jsm itself.
 - Bun and the dev dependencies: run `make setup`, or `bun install`, first.
+- [git](https://git-scm.com/downloads): the replay copies the checkout into a git repo of its own, and runs the page's `git restore` there.
 
 ## 🚀 Commit Workflow
 
