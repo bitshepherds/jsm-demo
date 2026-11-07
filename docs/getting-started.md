@@ -41,7 +41,7 @@ git restore registry && git clean -fd registry
 
 ## The example: an order API
 
-The registry holds two families, each with versions `1.0.0` and `1.1.0`:
+This walk-through uses two of the registry's families, each with versions `1.0.0` and `1.1.0`:
 
 | Family           | What it is                                 | Who owns it                        | Its scenario   |
 | ---------------- | ------------------------------------------ | ---------------------------------- | -------------- |
@@ -343,8 +343,10 @@ go tool jsm -r registry validate all -C
 ```
 
 ```text
-Test summary: 9 passed, 0 failed
+Test summary: 57 passed, 0 failed, 2 excepted
 ```
+
+The 2 excepted runs are not yours: they are the deliberate exceptions of `customer/summary`, a family that [Deployed versions are frozen](deployed-versions.md#step-5-a-deployed-versions-exceptions) uses.
 
 ## What you have seen
 
@@ -353,3 +355,5 @@ Test summary: 9 passed, 0 failed
 - **`jsm diff`** lists every change and which way it goes. **`jsm check-party`** tells each reader and writer whether a later version can harm it.
 - **A new major version** is how to make a change the scenario forbids. **`compat-exceptions.yml`** records a deliberate break, with its reason.
 - **A warning about an unexercised change** means no document shows it yet. Add one, and the check says whether it breaks anyone.
+
+The registry holds a family for each of JSM's other scenarios too, such as a settings file, stored records and an event log. [Scenarios](scenarios/index.md) helps you find the one you're in, with a worked example of each.

@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "Order placed event",
+  "type": "object",
+  "properties": {
+    "orderId": { "type": "string" },
+    "total": { "type": "number", "minimum": 0, "description": "The order's total, in units of its currency." },
+    "currency": { "type": "string", "description": "An ISO 4217 code, such as GBP." }
+  },
+  "required": ["orderId", "total"]
+}

@@ -1,0 +1,9 @@
+exceptions:
+  - version: 1.0.0
+    document: fail/too-long.json
+    rule: no-loosening
+    reason: 1.0.0 wrongly rejected names over 50 characters.
+  - version: 1.0.0
+    document: pass/long-name.json
+    rule: no-loosening
+    reason: 1.1.0 sends names of up to 100 characters, which 1.0.0 wrongly rejected.

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "Issued invoice",
+  "type": "object",
+  "properties": {
+    "schemaVersion": { "const": "1.1.0" },
+    "invoiceId": { "type": "string" },
+    "total": { "type": "number", "minimum": 0 },
+    "taxNumber": { "type": "string" }
+  },
+  "required": ["schemaVersion", "invoiceId", "total", "taxNumber"]
+}

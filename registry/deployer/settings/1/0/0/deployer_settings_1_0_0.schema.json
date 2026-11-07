@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "Deployer settings",
+  "type": "object",
+  "properties": {
+    "target": { "type": "string" },
+    "timeout": { "type": "integer", "minimum": 1 }
+  },
+  "required": ["target"],
+  "additionalProperties": false
+}

@@ -1,0 +1,4 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#5-stored-data-each-document-names-its-version
+# stored-self-naming: each invoice names the version it was issued under, and is checked against that version only.
+scenario: stored-self-naming

@@ -1,0 +1,8 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#3-config-files
+# config-file: the deployer tool owns its settings file and reads it; people write it, and keep it for years.
+scenario: config-file
+# A family whose files live for years needs a statement, for each major past the first, of how files move to it.
+# JSM checks only that it is here.
+migrations:
+  2: The deployer's upgrade command renames timeout to timeoutSeconds in each settings file it finds.

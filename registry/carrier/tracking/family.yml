@@ -1,0 +1,6 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#9-a-format-someone-else-owns
+# third-party-format: a shipping carrier owns its tracking webhook, and this schema records what it sends.
+scenario: third-party-format
+# This scenario must say how long its documents live. Each webhook is read once, and gone.
+documentsLive: moment

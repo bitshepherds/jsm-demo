@@ -1,0 +1,4 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#8-lock-step
+# lock-step: a batch job's planner writes plan.json and its executor reads it. Both ship in one image, on one version.
+scenario: lock-step

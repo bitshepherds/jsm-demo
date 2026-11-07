@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "Batch plan",
+  "type": "object",
+  "properties": {
+    "jobId": { "type": "string" },
+    "steps": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+  },
+  "required": ["jobId", "steps"],
+  "additionalProperties": false
+}

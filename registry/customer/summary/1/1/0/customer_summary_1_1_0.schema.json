@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "Customer summary",
+  "type": "object",
+  "properties": {
+    "customerId": { "type": "string" },
+    "name": { "type": "string", "maxLength": 100 }
+  },
+  "required": ["customerId", "name"]
+}

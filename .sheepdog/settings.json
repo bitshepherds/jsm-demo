@@ -60,7 +60,9 @@
   "ci": {
     "expectedChecks": [
       "check",
-      "replay-getting-started"
+      "replay-getting-started",
+      "check-scenarios",
+      "replay-deployed-versions"
     ]
   },
   "survey": {

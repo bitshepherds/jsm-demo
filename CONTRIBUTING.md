@@ -34,13 +34,15 @@ bun run lint
 
 ## ✅ Checks
 
-`make check` lints the tracked Markdown first, then validates the registry, then replays every step of `docs/getting-started.md`. Every pull request's CI runs the same steps, `make lint validate` in its `check` job and `make replay` in its own job, so a Markdown style error fails it.
+`make check` lints the tracked Markdown first, then validates the registry, then replays every step of `docs/getting-started.md`, then makes each `docs/scenarios/` page's breaking edit and checks that jsm refuses it, then replays every step of `docs/deployed-versions.md`. Every pull request's CI runs the same steps, `make lint validate` in its `check` job, and `make replay`, `make scenarios` and `make deployed` in jobs of their own, so a Markdown style error fails it.
 
 `make check` needs:
 
 - [Go](https://go.dev/dl/), at the version `go.mod` pins. `go tool jsm` fetches jsm itself.
 - Bun and the dev dependencies: run `make setup`, or `bun install`, first.
 - [git](https://git-scm.com/downloads): the replay copies the checkout into a git repo of its own, and runs the page's `git restore` there.
+
+The scenario check needs Go, and git with a git checkout of this repo: it copies `registry/` to a temporary folder, makes each edit there, and uses git to prove it left the checkout as it was. The deployed-versions replay copies the checkout into a git repo of its own, and makes its deployment tags there, never in your clone.
 
 ## 🚀 Commit Workflow
 
