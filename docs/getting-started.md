@@ -4,7 +4,7 @@ An online shop has an API to create an order. The client sends a **request** bod
 
 In about fifteen minutes, you will make the same one-line change to both schemas. JSM, the JSON Schema Manager, passes it on one and refuses it on the other, and says why. You will then fix the broken one in the two proper ways, and see a second, subtler case.
 
-Every step on this page is replayed automatically, on every change to this repo, by [`scripts/replay-getting-started.sh`](../scripts/replay-getting-started.sh). If JSM stops doing what this page says, the build fails.
+Every step on this page is replayed automatically, on every change to this repo, by [`scripts/replay-getting-started.sh`](../scripts/replay-getting-started.sh). The replay checks each step's outcome, whether JSM passes or fails it, and one key line of its output, so the build fails if either changes. The other lines quoted here, such as the counts, are not checked, and may read differently in a later JSM release.
 
 ## Contents <!-- omit in toc -->
 
@@ -21,7 +21,7 @@ Every step on this page is replayed automatically, on every change to this repo,
 
 ## Before you start
 
-You need [Go](https://go.dev/dl/) 1.27.3 or later, and a clone of this repo. Run every command from the repo's root folder. JSM is pinned in `go.mod`, so `go tool jsm` fetches and runs the right version the first time you use it.
+You need [Go](https://go.dev/dl/) 1.27.3 or later, [git](https://git-scm.com/downloads), and a clone of this repo. Run every command from the repo's root folder. JSM is pinned in `go.mod`, so `go tool jsm` fetches and runs the right version the first time you use it.
 
 Every command passes `-r registry`, which tells JSM where the registry is. Do the same in your own work: until [bitshepherds/json-schema-manager#158](https://github.com/bitshepherds/json-schema-manager/issues/158) is fixed, an exported `JSM_REGISTRY_ROOT_DIR` overrides the current folder, so either unset it or always pass `-r`. Every `validate` passes `-C` too, which keeps it going after the first failure, so that you see every result.
 
@@ -50,7 +50,7 @@ The registry holds two families, each with versions `1.0.0` and `1.1.0`:
 
 Each family declares its scenario in its `family.yml`. The scenario says how the documents are used, and that decides which changes are safe. Version `1.1.0` of each adds an optional `currency` field.
 
-Each version has test documents beside its schema: `pass/` holds documents it must accept, and `fail/` holds documents it must reject. JSM runs each version's own documents, and then, depending on the scenario, runs documents from one version on its neighbours in the same major version. That is how it finds a change that breaks someone.
+Each version has test documents beside its schema: `pass/` holds documents it must accept, and `fail/` holds documents it must reject. JSM runs each version's own documents, and then, depending on the scenario, runs documents from each version on every other version in the same major version. That is how it finds a change that breaks someone.
 
 ## Step 1: make currency required in the response
 
@@ -80,11 +80,13 @@ But did JSM check anything, or did nothing run? Ask for the detail:
 go tool jsm -r registry validate all -C --verbose
 ```
 
-Under `order_response_1_1_0`, it shows the runs across versions:
+Under `order_response_1_1_0`, it lists each run, with the document it ran and what the run showed. The last two lines are the runs across versions. As elsewhere on this page, the paths are shortened to `/path/to/jsm-demo`:
 
 ```text
-no-loosening holds: pass document of 1.1.0 accepted by 1.0.0
-no-loosening holds: fail document of 1.0.0 rejected by 1.1.0
+[PASS] order_response_1_1_0.schema.json (pass: 3, fail: 0)
+  ✓ /path/to/jsm-demo/registry/order/response/1/1/0/pass/with-currency.json (passed)
+  ✓ /path/to/jsm-demo/registry/order/response/1/1/0/pass/with-currency.json (no-loosening holds: pass document of 1.1.0 accepted by 1.0.0)
+  ✓ /path/to/jsm-demo/registry/order/response/1/0/0/fail/unknown-status.json (no-loosening holds: fail document of 1.0.0 rejected by 1.1.0)
 ```
 
 In an `owner-writes` family, the reader may be behind the writer, so a later version must not **loosen**: it must not let the writer send anything an earlier reader rejects. JSM ran `1.1.0`'s pass document on `1.0.0` to prove a `1.0.0` client accepts what `1.1.0` sends. The check ran, and held.
@@ -220,7 +222,7 @@ If you'd rather not edit by hand, copy the ready-made fix over the registry inst
 cp -R getting-started/fixes/major-bump/. registry/
 ```
 
-An `owner-reads` or `owner-writes` family needs no migration statement for a new major version: its documents are read and gone in moments, so there are none left to move. A family whose documents stay around, such as a settings file, needs one in its `family.yml`. See the [config files scenario](https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#3-config-files).
+An `owner-reads` or `owner-writes` family needs no migration statement for a new major version: its documents are read and gone in moments, so there are none left to move. A family whose documents stay around, such as a settings file, needs one in its `family.yml`. See the [config files scenario](https://github.com/bitshepherds/json-schema-manager/blob/main/user-docs/scenarios.md#3-config-files).
 
 Now check the writer still on `1.0.0`:
 

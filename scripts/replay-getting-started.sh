@@ -134,15 +134,21 @@ step "hand edit making response currency required validates green (exit 0)" 0 \
   '[PASS] order_response_1_1_0.schema.json' -- jsm validate all -C
 
 step "validate --verbose shows the response's cross-version run" 0 \
-  'no-loosening holds: pass document of 1.1.0 accepted by 1.0.0' -- jsm validate all -C --verbose
+  'response/1/1/0/pass/with-currency.json (no-loosening holds: pass document of 1.1.0 accepted by 1.0.0)' \
+  -- jsm validate all -C --verbose
 
 make_currency_required
 step "hand edit making request currency required fails no-tightening (exit 1)" 1 \
   'no-tightening broken: pass document of 1.0.0 rejected by 1.1.0' -- jsm validate all -C
 
+# Runs both of the page's diffs, and exits with the first non-zero status, so that neither
+# command's failure is hidden by the other's success.
 diff_both() {
-  jsm diff order_response_1_0_0 order_response_1_1_0
-  jsm diff order_request_1_0_0 order_request_1_1_0
+  local response=0 request=0
+  jsm diff order_response_1_0_0 order_response_1_1_0 || response=$?
+  jsm diff order_request_1_0_0 order_request_1_1_0 || request=$?
+  if [ "$response" -ne 0 ]; then return "$response"; fi
+  return "$request"
 }
 step "jsm diff marks both edits narrows" 0 'narrows  /: required requires "currency"' -- diff_both
 if [ "$(grep -cF 'narrows  /: required requires "currency"' "$out")" -ne 2 ]; then

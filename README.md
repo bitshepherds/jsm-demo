@@ -15,7 +15,7 @@ A schema is a contract, and how it is used decides which changes to it are safe.
 
 ## Quick start
 
-You need [Go](https://go.dev/dl/) 1.27.3 or later, and nothing else: this repo pins JSM in `go.mod`, and `go tool jsm` fetches and runs that version the first time you use it.
+You need [Go](https://go.dev/dl/) 1.27.3 or later and [git](https://git-scm.com/downloads), and nothing else: this repo pins JSM in `go.mod`, and `go tool jsm` fetches and runs that version the first time you use it.
 
 ```sh
 git clone https://github.com/bitshepherds/jsm-demo.git
@@ -47,12 +47,12 @@ Or pin it in your own repo's `go.mod`, as this one does, and run it as `go tool 
 go get -tool github.com/bitshepherds/json-schema-manager/v2/cmd/jsm@latest
 ```
 
-JSM's [user docs](https://github.com/bitshepherds/json-schema-manager/tree/v2.0.0/user-docs) explain the registry, the scenarios, and every command.
+JSM's [user docs](https://github.com/bitshepherds/json-schema-manager/tree/main/user-docs) explain the registry, the scenarios, and every command.
 
 ## What's here
 
 - [`registry/`](registry/): the demo's schema registry. It holds an order API's request and response, each with versions `1.0.0` and `1.1.0` and their test documents.
-- [`docs/getting-started.md`](docs/getting-started.md): the walk-through. Every step in it is replayed on each change to this repo by [`scripts/replay-getting-started.sh`](scripts/replay-getting-started.sh), so it stays true.
+- [`docs/getting-started.md`](docs/getting-started.md): the walk-through. Every step in it is replayed on each change to this repo by [`scripts/replay-getting-started.sh`](scripts/replay-getting-started.sh), which checks each step's outcome and one key line of JSM's output, so the build fails if either changes.
 
 ## Contributing
 
