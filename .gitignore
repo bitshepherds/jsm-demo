@@ -24,3 +24,6 @@ tmp/
 ttt.yaml
 tmp.md
 dist/
+
+# Sheepdog stream worktrees
+.claude/worktrees/
