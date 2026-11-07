@@ -2,17 +2,12 @@
 
 [![Licence](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-> [!TIP]
->
-> Want to jump right in? Try the [tutorial](docs/tutorial.md)!
-
 ## Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
 - [Why use JSON Schema?](#why-use-json-schema)
 - [Why use JSON Schema Manager (JSM)?](#why-use-json-schema-manager-jsm)
 - [JSM Features](#jsm-features)
-- [Learn](#learn)
 - [Contributing](#contributing)
 - [Maintainers](#maintainers)
 - [Licence](#licence)
@@ -56,12 +51,6 @@ JSON Schema Maanager (JSM) makes this easy.
 - **Schema Versioning** - JSM enforces semantically versioned schemas. Use JSM in your CI/CD pipeline to prevent changes to already published schemas, and during development, where a supposedly 'non-breaking' minor version change would actually break consumers in production if deployed.
 - **Schema Publishing** - Use JSM in your CI/CD pipeline to render distribution versions of your schemas for deployment to different environments.
 - **Compliant and Performant** - JSM is written in Go, and can run thousands of tests a second. It uses the [github.com/santhosh-tekuri/jsonschema/v6](https://github.com/santhosh-tekuri/jsonschema/v6) library for JSON Schema validation, which provides 100% compliance for all major versions of the JSON Schema standards.
-
-## Learn
-
-- [Tutorial](docs/tutorial.md) - learn by doing.
-- [Decoupled services, data evolution, and semantic versioning](docs/decouple.md) - find out why semantic versioning is so important for JSON Schemas.
-- [Avoiding breaking changes](docs/avoiding-breaking-changes.md) - changes which look safe, but break consumers, and how JSM catches them.
 
 ## Contributing
 

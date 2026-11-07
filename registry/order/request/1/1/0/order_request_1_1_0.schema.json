@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "Create order request",
+  "type": "object",
+  "properties": {
+    "productId": { "type": "string" },
+    "quantity": { "type": "integer", "minimum": 1 },
+    "currency": { "type": "string" }
+  },
+  "required": ["productId", "quantity"],
+  "additionalProperties": false
+}

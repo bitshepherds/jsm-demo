@@ -1,20 +1,15 @@
 .PHONY: all check lint fmt setup clean
 
-REGISTRIES := demo-registry tutorial-solution
-
 all: lint fmt
 
-# Lint the tracked Markdown, then validate every registry with jsm, at the
-# version go.mod pins. Runs each registry, then fails if any failed.
-# Lint needs Bun and the dev dependencies (`make setup`); without them it
-# fails rather than being skipped.
+# Lint the tracked Markdown, then validate the registry with jsm, at the
+# version go.mod pins. Lint needs Bun and the dev dependencies (`make setup`);
+# without them it fails rather than being skipped.
+# -C runs every schema even after a failure: without it, validate stops at the
+# first failure and reports schemas it never ran as passed
+# (bitshepherds/json-schema-manager#155).
 check: lint
-	@status=0; \
-	for r in $(REGISTRIES); do \
-		echo "== $$r"; \
-		JSM_REGISTRY_ROOT_DIR=$$r go tool jsm validate all --continue-on-error || status=1; \
-	done; \
-	exit $$status
+	@go tool jsm -r registry validate all -C
 
 # Run linter
 lint:

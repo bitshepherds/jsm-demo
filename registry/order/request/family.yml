@@ -1,0 +1,3 @@
+# How this family is used, which decides what JSM checks. See user-docs/scenarios.md.
+# owner-reads: the order service owns this schema and reads every request; its clients write them.
+scenario: owner-reads

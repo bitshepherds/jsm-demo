@@ -38,11 +38,15 @@
     "**/pass/*.json",
     "**/fail/*.json",
     "**/.markdownlint*",
-    "**/json-schema-manager-config.yml"
+    "**/json-schema-manager-config.yml",
+    "**/family.yml",
+    "**/compat-exceptions.yml"
   ],
   "criticalPaths": [
     ".github/workflows/**",
-    "**/json-schema-manager-config.yml"
+    "**/json-schema-manager-config.yml",
+    "**/family.yml",
+    "**/compat-exceptions.yml"
   ],
   "practices": {
     "off": {
