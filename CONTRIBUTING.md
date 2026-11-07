@@ -36,7 +36,10 @@ bun run lint
 
 `make check` lints the tracked Markdown first, then validates every registry. Every pull request's CI check runs `make check`, so a Markdown style error fails it.
 
-`make check` needs Bun and the dev dependencies: run `make setup`, or `bun install`, first.
+`make check` needs:
+
+- [Go](https://go.dev/dl/), at the version `go.mod` pins. `go tool jsm` fetches jsm itself.
+- Bun and the dev dependencies: run `make setup`, or `bun install`, first.
 
 ## 🚀 Commit Workflow
 
