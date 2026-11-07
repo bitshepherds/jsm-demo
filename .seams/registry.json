@@ -36,6 +36,12 @@
           "test": "scripts/check-scenarios.sh",
           "tier": "pr",
           "tool": "jsm"
+        },
+        {
+          "side": "consumer",
+          "test": "scripts/replay-deployed-versions.sh",
+          "tier": "pr",
+          "tool": "jsm"
         }
       ]
     }

@@ -1,0 +1,4 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#1-owner-writes
+# owner-writes: the accounts service owns this schema and writes every customer summary; its clients read them.
+scenario: owner-writes

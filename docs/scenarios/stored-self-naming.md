@@ -78,7 +78,7 @@ The output above shortens the paths to `/path/to/jsm-demo`: JSM prints them in f
 JSM checks:
 
 - **Each version's own documents**, and nothing across versions, since these versions never need to agree.
-- **That no deployed version is deleted.** A document may name it for years, so once a version is deployed, `jsm check-changes` refuses deleting it.
+- **That no deployed version is deleted.** A document may name it for years, so once a version is deployed, `jsm check-changes` refuses deleting it. [Deployed versions are frozen](../deployed-versions.md) shows that.
 
 A new major version needs no migration statement, since old documents go on naming their old version.
 

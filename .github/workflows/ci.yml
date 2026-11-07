@@ -58,3 +58,18 @@ jobs:
 
       - name: Check that jsm refuses each scenario page's breaking edit
         run: make scenarios
+
+  replay-deployed-versions:
+    name: replay-deployed-versions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # check-changes needs the history and the deployment tags
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Replay every step of docs/deployed-versions.md
+        run: make deployed

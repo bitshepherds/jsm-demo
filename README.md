@@ -30,6 +30,8 @@ Then follow the walk-through, [Getting started: break and fix an API contract](d
 
 Then find your own situation in [Scenarios](docs/scenarios/index.md). JSM knows nine ways a schema can be used, from an API response to a settings file kept for years, and each page shows one on a worked example you can break and fix.
 
+Last, see how JSM keeps its promises once a schema has shipped, in [Deployed versions are frozen](docs/deployed-versions.md): a deployed version can gain test documents, but can't change, and can't be deleted while its documents may still be read.
+
 > [!WARNING]
 >
 > Until [bitshepherds/json-schema-manager#158](https://github.com/bitshepherds/json-schema-manager/issues/158) is fixed, an exported `JSM_REGISTRY_ROOT_DIR` overrides the current folder. Either unset it, or always pass `-r`, as every command in this repo does.
@@ -53,9 +55,10 @@ JSM's [user docs](https://github.com/bitshepherds/json-schema-manager/tree/main/
 
 ## What's here
 
-- [`registry/`](registry/): the demo's schema registry. It holds a family for each of JSM's nine scenarios, such as an order API's request and response, a tool's settings file and an order event log, each with at least two versions and their test documents.
+- [`registry/`](registry/): the demo's schema registry. It holds a family for each of JSM's nine scenarios, such as an order API's request and response, a tool's settings file and an order event log, each with at least two versions and their test documents, and `customer/summary`, whose deliberate exceptions the deployed-versions page uses.
 - [`docs/getting-started.md`](docs/getting-started.md): the walk-through. Every step in it is replayed on each change to this repo by [`scripts/replay-getting-started.sh`](scripts/replay-getting-started.sh), which checks each step's outcome and one key line of JSM's output, so the build fails if either changes.
 - [`docs/scenarios/`](docs/scenarios/index.md): a page for each scenario, with a worked example. Each page's breaking edit is checked on each change to this repo by [`scripts/check-scenarios.sh`](scripts/check-scenarios.sh).
+- [`docs/deployed-versions.md`](docs/deployed-versions.md): what JSM allows once a version is deployed. Every step is replayed on each change to this repo, in a throwaway repo with throwaway deployment tags, by [`scripts/replay-deployed-versions.sh`](scripts/replay-deployed-versions.sh).
 
 ## Contributing
 

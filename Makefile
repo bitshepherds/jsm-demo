@@ -1,12 +1,12 @@
-.PHONY: all check validate replay scenarios lint fmt setup clean
+.PHONY: all check validate replay scenarios deployed lint fmt setup clean
 
 all: lint fmt
 
 # The gate: lint the tracked Markdown, then the registry, then the
-# getting-started page's replay, then each scenario page's breaking edit. Lint
-# needs Bun and the dev dependencies (`make setup`); without them it fails
-# rather than being skipped.
-check: lint validate replay scenarios
+# getting-started page's replay, then each scenario page's breaking edit, then
+# the deployed-versions page's replay. Lint needs Bun and the dev dependencies
+# (`make setup`); without them it fails rather than being skipped.
+check: lint validate replay scenarios deployed
 
 # Validate the registry with jsm, at the version go.mod pins.
 # -C runs every schema even after a failure: without it, validate stops at the
@@ -23,6 +23,11 @@ replay:
 # registry, and check that jsm refuses it with the rule the page names.
 scenarios:
 	@scripts/check-scenarios.sh
+
+# Replay every step of docs/deployed-versions.md in a throwaway repo, with
+# throwaway deployment tags.
+deployed:
+	@scripts/replay-deployed-versions.sh
 
 # Run linter
 lint:

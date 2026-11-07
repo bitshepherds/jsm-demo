@@ -61,7 +61,8 @@
     "expectedChecks": [
       "check",
       "replay-getting-started",
-      "check-scenarios"
+      "check-scenarios",
+      "replay-deployed-versions"
     ]
   },
   "survey": {

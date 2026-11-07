@@ -343,7 +343,7 @@ go tool jsm -r registry validate all -C
 ```
 
 ```text
-Test summary: 53 passed, 0 failed
+Test summary: 57 passed, 0 failed, 2 excepted
 ```
 
 ## What you have seen
