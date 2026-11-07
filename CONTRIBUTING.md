@@ -34,7 +34,7 @@ bun run lint
 
 ## ✅ Checks
 
-`make check` lints the tracked Markdown first, then validates every registry. Every pull request's CI check runs `make check`, so a Markdown style error fails it.
+`make check` lints the tracked Markdown first, then validates the registry, then replays every step of `docs/getting-started.md`. Every pull request's CI runs the same steps, `make lint validate` in its `check` job and `make replay` in its own job, so a Markdown style error fails it.
 
 `make check` needs:
 
