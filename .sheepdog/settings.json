@@ -40,7 +40,11 @@
     "**/.markdownlint*",
     "**/json-schema-manager-config.yml",
     "**/family.yml",
-    "**/compat-exceptions.yml"
+    "**/compat-exceptions.yml",
+    "Makefile",
+    "go.mod",
+    "scripts/**",
+    "package.json"
   ],
   "criticalPaths": [
     ".github/workflows/**",
