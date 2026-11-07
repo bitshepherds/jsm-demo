@@ -3,9 +3,9 @@
 #
 # It copies this checkout to a temporary directory and runs both of the page's routes there:
 # every hand edit the page describes, scripted, then the ready-made fix folders copied over the
-# registry. Each step asserts its exit code and one key line of jsm's output, and that the page
-# quotes that line. The key lines avoid output that a known jsm issue will change: the run counts
-# (bitshepherds/json-schema-manager#154), absolute paths (#156) and "a owner-reads" (#153).
+# registry. Each step asserts its exit code and a key line or two of jsm's output, and that the
+# page quotes those lines. The key lines avoid output that a known jsm issue will change: the run
+# counts (bitshepherds/json-schema-manager#154), absolute paths (#156) and "a owner-reads" (#153).
 #
 # The checkout itself is never touched, and the last step proves it.
 #
@@ -89,6 +89,17 @@ step() {
   ok "$title"
 }
 
+# also NAME KEY: asserts that the last step's output, and the page, hold a second line KEY.
+also() {
+  local title=$1 key=$2
+  if ! grep -qF -- "$key" "$out"; then not_ok "$title" "jsm's output lacks the line: $key"; fi
+  if ! grep -qF -- "$key" "$page"; then
+    : > "$out"
+    not_ok "$title" "docs/getting-started.md no longer quotes the line: $key"
+  fi
+  ok "$title"
+}
+
 # edit FILE OLD NEW: the reader's hand edit, which must find OLD exactly once.
 edit() {
   local file=$1 old=$2 new=$3 content before after
@@ -141,19 +152,15 @@ make_currency_required
 step "hand edit making request currency required fails no-tightening (exit 1)" 1 \
   'no-tightening broken: pass document of 1.0.0 rejected by 1.1.0' -- jsm validate all -C
 
-# Runs both of the page's diffs, and exits with the first non-zero status, so that neither
-# command's failure is hidden by the other's success.
-diff_both() {
-  local response=0 request=0
-  jsm diff order_response_1_0_0 order_response_1_1_0 || response=$?
-  jsm diff order_request_1_0_0 order_request_1_1_0 || request=$?
-  if [ "$response" -ne 0 ]; then return "$response"; fi
-  return "$request"
-}
-step "jsm diff marks both edits narrows" 0 'narrows  /: required requires "currency"' -- diff_both
-if [ "$(grep -cF 'narrows  /: required requires "currency"' "$out")" -ne 2 ]; then
-  not_ok "jsm diff marks both edits narrows" "expected the narrows line for both families"
-fi
+step "jsm diff marks the response edit narrows" 0 'narrows  /: required requires "currency"' \
+  -- jsm diff order_response_1_0_0 order_response_1_1_0
+also "jsm diff marks the open response's added currency narrows" \
+  'narrows  /currency: adds constraints where the earlier version had none'
+
+step "jsm diff marks the request edit narrows" 0 'narrows  /: required requires "currency"' \
+  -- jsm diff order_request_1_0_0 order_request_1_1_0
+also "jsm diff marks the closed request's added currency widens" \
+  'widens   /currency: accepts values where the earlier version accepted none'
 
 step "check-party writer on request 1.0.0 fails (exit 1)" 1 \
   '[FAIL] order_request_1_0_0' -- jsm check-party getting-started/parties/writer.yml

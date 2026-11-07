@@ -40,6 +40,7 @@ bun run lint
 
 - [Go](https://go.dev/dl/), at the version `go.mod` pins. `go tool jsm` fetches jsm itself.
 - Bun and the dev dependencies: run `make setup`, or `bun install`, first.
+- [git](https://git-scm.com/downloads): the replay copies the checkout into a git repo of its own, and runs the page's `git restore` there.
 
 ## 🚀 Commit Workflow
 

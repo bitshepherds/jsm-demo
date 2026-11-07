@@ -134,13 +134,27 @@ go tool jsm -r registry diff order_response_1_0_0 order_response_1_1_0
 go tool jsm -r registry diff order_request_1_0_0 order_request_1_1_0
 ```
 
-Both list the same change:
+The response's diff prints:
 
 ```text
-narrows  /: required requires "currency"
+Changes from order_response_1_0_0 to order_response_1_1_0:
+  narrows  /: required requires "currency"
+  narrows  /currency: adds constraints where the earlier version had none
 ```
 
-Each edit **narrows** what the schema accepts: `1.1.0` now rejects a document without `currency` that `1.0.0` accepted. `diff` doesn't judge. It is the family's scenario that decides whether narrowing matters: it is harmless where the owner writes, and it breaks callers where the owner reads.
+The request's diff prints:
+
+```text
+Changes from order_request_1_0_0 to order_request_1_1_0:
+  narrows  /: required requires "currency" (no fail document shows it)
+  widens   /currency: accepts values where the earlier version accepted none (used by pass/with-currency.json)
+```
+
+The first line of each is your edit, and it is the same on both: it **narrows** what the schema accepts, because `1.1.0` now rejects a document without `currency` that `1.0.0` accepted. On the request, JSM also names the test documents that show each change.
+
+The second line of each is the `currency` field that `1.1.0` already added, and it goes opposite ways. The response is open: `1.0.0` accepts any extra property, so a document with `"currency": 42` passed it, and `1.1.0`, which says `currency` is a string, narrows. The request is closed, with `"additionalProperties": false`: `1.0.0` rejects any `currency` at all, so `1.1.0` widens. Whether a schema accepts extra properties changes what adding one means.
+
+`diff` doesn't judge. It is the family's scenario that decides whether narrowing matters: your edit is harmless where the owner writes, and it breaks callers where the owner reads.
 
 ## Step 4: ask who it harms
 
