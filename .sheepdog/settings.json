@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/bitshepherds/sheepdog/main/schemas/settings_repo_5_0_0.schema.json",
+  "repo": "bitshepherds/jsm-demo",
+  "install": "bun install",
+  "gate": "for r in demo-registry tutorial-solution; do JSM_REGISTRY_ROOT_DIR=$r go run github.com/bitshepherds/json-schema-manager/cmd/jsm@v1.4.1 validate all --continue-on-error || exit 1; done",
+  "prTitleGate": "grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|deps)(\\(.*\\))?!?: .+'",
+  "safetyNet": [
+    "**/*.test.*",
+    "**/*.spec.*",
+    "**/*_test.*",
+    "**/test_*.py",
+    "**/test/**",
+    "**/tests/**",
+    "**/__tests__/**",
+    "**/*.feature",
+    ".github/workflows/**",
+    ".gitlab-ci.yml",
+    ".husky/**",
+    "lefthook.yml",
+    ".pre-commit-config.yaml",
+    ".sheepdog/settings.json",
+    ".sheepdog/review.md",
+    "**/CODEOWNERS",
+    ".github/rulesets/**",
+    "**/biome.json",
+    "**/biome.jsonc",
+    "**/.eslintrc*",
+    "**/eslint.config.*",
+    "**/.prettierrc*",
+    "**/ruff.toml",
+    "**/.golangci.yml",
+    "**/bunfig.toml",
+    "**/vitest.config.*",
+    "**/jest.config.*",
+    "**/pytest.ini",
+    "**/.mocharc*",
+    "**/coverage-baseline.json",
+    "**/pass/*.json",
+    "**/fail/*.json",
+    "**/.markdownlint*",
+    "**/json-schema-manager-config.yml"
+  ],
+  "criticalPaths": [
+    ".github/workflows/**",
+    "**/json-schema-manager-config.yml"
+  ],
+  "practices": {
+    "off": {
+      "suite-health": "jsm validate has no way to run its tests in random order with a given seed"
+    }
+  },
+  "stance": "balanced",
+  "survey": {
+    "scripts": "d35c46d378f3",
+    "workspaces": "4f53cda18c2b",
+    "makeTargets": "55e6bae93dec",
+    "ci": "33a569e72995",
+    "hooks": "2485ba485215",
+    "lockfiles": "173c30209132",
+    "commitlint": "4f53cda18c2b",
+    "toolchain": "4f53cda18c2b"
+  }
+}
