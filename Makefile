@@ -4,9 +4,11 @@ REGISTRIES := demo-registry tutorial-solution
 
 all: lint fmt
 
-# Validate every registry with jsm, at the version go.mod pins.
-# Runs each registry, then fails if any failed.
-check:
+# Lint the tracked Markdown, then validate every registry with jsm, at the
+# version go.mod pins. Runs each registry, then fails if any failed.
+# Lint needs Bun and the dev dependencies (`make setup`); without them it
+# fails rather than being skipped.
+check: lint
 	@status=0; \
 	for r in $(REGISTRIES); do \
 		echo "== $$r"; \

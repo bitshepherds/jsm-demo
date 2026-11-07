@@ -1,7 +1,6 @@
 # Bun
 node_modules
 bun.lockb
-bun.lock
 
 # Log files
 *.log
