@@ -1,0 +1,31 @@
+{
+  "schema": "https://github.com/bitshepherds/seams/schemas/registry/v1",
+  "seams": [
+    {
+      "id": "cli:json-schema-manager/jsm",
+      "provider": {
+        "name": "json-schema-manager",
+        "inRepo": false
+      },
+      "consumers": [
+        {
+          "name": "jsm-demo"
+        }
+      ],
+      "audience": "public",
+      "contract": {
+        "location": "https://github.com/bitshepherds/json-schema-manager",
+        "owner": "bitshepherds/json-schema-manager"
+      },
+      "deploysIndependently": true,
+      "testWorld": [
+        {
+          "side": "consumer",
+          "test": "jsm validate all (both registries)",
+          "tier": "pr",
+          "tool": "jsm"
+        }
+      ]
+    }
+  ]
+}
