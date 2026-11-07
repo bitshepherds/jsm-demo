@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "{{ ID }}",
+  "title": "Carrier tracking webhook",
+  "type": "object",
+  "properties": {
+    "parcelId": { "type": "string" },
+    "status": { "enum": ["label-created", "in-transit", "out-for-delivery", "held-at-customs", "delivered"] }
+  },
+  "required": ["parcelId", "status"],
+  "additionalProperties": false
+}

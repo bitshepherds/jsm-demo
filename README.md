@@ -28,6 +28,8 @@ The last command checks every schema in the registry, and ends with `0 failed`. 
 
 Then follow the walk-through, [Getting started: break and fix an API contract](docs/getting-started.md). In about fifteen minutes, you make the same change to an order API's request and its response. JSM passes it on one, refuses it on the other, and says why. Then you fix it.
 
+Then find your own situation in [Scenarios](docs/scenarios/index.md). JSM knows nine ways a schema can be used, from an API response to a settings file kept for years, and each page shows one on a worked example you can break and fix.
+
 > [!WARNING]
 >
 > Until [bitshepherds/json-schema-manager#158](https://github.com/bitshepherds/json-schema-manager/issues/158) is fixed, an exported `JSM_REGISTRY_ROOT_DIR` overrides the current folder. Either unset it, or always pass `-r`, as every command in this repo does.
@@ -51,8 +53,9 @@ JSM's [user docs](https://github.com/bitshepherds/json-schema-manager/tree/main/
 
 ## What's here
 
-- [`registry/`](registry/): the demo's schema registry. It holds an order API's request and response, each with versions `1.0.0` and `1.1.0` and their test documents.
+- [`registry/`](registry/): the demo's schema registry. It holds a family for each of JSM's nine scenarios, such as an order API's request and response, a tool's settings file and an order event log, each with at least two versions and their test documents.
 - [`docs/getting-started.md`](docs/getting-started.md): the walk-through. Every step in it is replayed on each change to this repo by [`scripts/replay-getting-started.sh`](scripts/replay-getting-started.sh), which checks each step's outcome and one key line of JSM's output, so the build fails if either changes.
+- [`docs/scenarios/`](docs/scenarios/index.md): a page for each scenario, with a worked example. Each page's breaking edit is checked on each change to this repo by [`scripts/check-scenarios.sh`](scripts/check-scenarios.sh).
 
 ## Contributing
 

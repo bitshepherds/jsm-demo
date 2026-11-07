@@ -1,0 +1,4 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#4-stored-data-one-schema-for-all
+# stored-one-schema: the accounts service saves customer profiles, and reads every one back, however old, against its newest schema.
+scenario: stored-one-schema

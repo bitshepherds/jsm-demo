@@ -1,0 +1,7 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#6-retained-streams
+# retained-stream: the order service publishes order-placed events to a log kept for 30 days. Readers may lag, and new ones replay it.
+scenario: retained-stream
+# The oldest version whose events may still be in the log. Move it forward, in a reviewed change, once the last
+# event written under it has expired.
+oldestLive: 1.0.0

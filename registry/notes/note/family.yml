@@ -1,0 +1,6 @@
+# How this family is used, which decides what JSM checks. See JSM's scenarios page:
+# https://github.com/bitshepherds/json-schema-manager/blob/v2.0.0/user-docs/scenarios.md#7-uncoordinated-parties
+# uncoordinated: every install of the notes app writes and reads synced notes, and each upgrades when its owner likes.
+scenario: uncoordinated
+# This scenario must say how long its documents live. Synced notes are kept for good.
+documentsLive: indefinitely

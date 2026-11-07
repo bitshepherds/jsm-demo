@@ -30,6 +30,12 @@
           "test": "scripts/replay-getting-started.sh",
           "tier": "pr",
           "tool": "jsm"
+        },
+        {
+          "side": "consumer",
+          "test": "scripts/check-scenarios.sh",
+          "tier": "pr",
+          "tool": "jsm"
         }
       ]
     }
